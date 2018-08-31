@@ -169,3 +169,126 @@ function o() {
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
+
+# Cleanup stale docker containers
+docker-cleanup() {
+  # delete exited containers
+  docker rm -v $(docker ps -a -q -f "status=exited")
+
+  # remove "dangling" images
+  docker rmi $(docker images -q -f "dangling=true")
+
+  # cleanup vfs directory
+  docker run \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /var/lib/docker:/var/lib/docker \
+    --rm martin/docker-cleanup-volumes
+}
+
+#
+# Go to a <repo> in ~/dev
+#
+
+goto() {
+  GO_DEFAULT=segmentio
+
+  #
+  # The brains behind goto
+  #
+
+  nav() {
+    cd ~/dev/src/github.com/$1 &> /dev/null ||
+    clone $1 2> /dev/null ||
+    echo "repo @ $1 does not exist"
+  }
+
+  #
+  # Bash completion for goto()
+  #
+
+  _goto()
+  {
+    cur=${COMP_WORDS[COMP_CWORD]}
+    if [[ "$cur" =~ ^([^/]+)/(.+)$ ]]; then
+      use=`tree -f -L 1 ~/dev/src/github.com/segmentio/ | grep ${BASH_REMATCH[2]} | tr / '\t' | awk '{print $(NF-1),$NF}' | tr ' ' /`
+    else
+      use=`ls ~/dev/src/github.com/$GO_DEFAULT/ | grep $cur`
+    fi
+    COMPREPLY=(`compgen -W "$use" -- $cur`)
+  }
+
+  if hash complete 2>/dev/null; then
+    complete -o default -o nospace -F _goto goto
+  fi
+
+  if hash shopt 2>/dev/null; then
+    shopt -s cdspell
+  fi
+
+  case $1 in
+
+    */*)
+      nav $1
+    ;;
+
+    ajs)
+      [[ -z $2 ]] && nav segmentio/analytics.js-core || nav segment-integrations/analytics.js-integration-$2
+    ;;
+
+    int)
+      [[ -z $2 ]] && echo "must specify integration" || nav segmentio/integrations/integrations/$2
+    ;;
+
+    source)
+      [[ -z $2 ]] && echo "must specify source" || nav segment-sources/$2
+    ;;
+
+    ios)
+      [[ -z $2 ]] && nav segmentio/analytics-ios || nav segment-integrations/analytics-ios-integration-$2
+    ;;
+
+    android)
+      [[ -z $2 ]] && nav segmentio/analytics-android || nav segment-integrations/analytics-android-integration-$2
+    ;;
+
+    infra)
+      [[ -z $2 ]] && echo "must specify repo" || nav segment-infra/$2
+    ;;
+
+    *)
+      nav $GO_DEFAULT/$1
+    ;;
+
+  esac
+
+  if hash shopt 2>/dev/null; then
+    shopt -s cdspell
+  fi
+
+}
+
+#
+# Clone a <repo ...> by "owner/name" into ~/dev
+#
+
+clone() {
+  for repo in $@; do
+		if [[ "$repo" == */* ]]; then
+		  local dir=$GOPATH/src/github.com/$repo
+		  git clone ssh://git@github.com/$repo.git $dir
+		  cd $dir
+	  else
+		  local dir=$GOPATH/src/github.com/$USER_DEFAULT/$repo
+		  git clone ssh://git@github.com/$USER_DEFAULT/$repo.git $dir
+		  cd $dir
+	  fi
+  done
+}
+
+#
+# Get the npm version of a <package>
+#
+
+version() {
+  npm info $1 version
+}
