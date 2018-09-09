@@ -79,6 +79,8 @@
 		fi \
 	}; f"
 
+	open = "!f(){ open https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /); }; f"
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -185,3 +187,7 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+
+[url "ssh://git@github.com/"]
+
+		insteadOf = https://github.com/
