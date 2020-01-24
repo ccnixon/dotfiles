@@ -13,8 +13,6 @@ function doIt() {
 		--exclude "LICENSE-MIT.txt" \
 		-avh --no-perms . ~;
 	source ~/.bash_profile;
-	# Make root dev directory
-	mkdir ~/dev
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then

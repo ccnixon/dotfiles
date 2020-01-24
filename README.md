@@ -4,27 +4,16 @@ Forked from [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles) 
 
 ## Installation
 
-1. Install Homebrew
 ```bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+source <(curl -s https://raw.githubusercontent.com/ccnixon/dotfiles/master/install.sh)
 ```
 
-2. Install git
-```bash
-brew install git
-```
+## Updating
 
-3. Initialize dev directory
 ```bash
-cd ~ && mkdir -p dev/github.com/ccnixon && cd dev/github.com/ccnixon`
+goto ccnixon/dotfiles
 ```
-
-4. Run the bootstrap script
-```bash
-git clone https://github.com/ccnixon/dotfiles.git && cd dotfiles && source bootstrap.sh
-```
-
-To update, `cd` into your local `dotfiles` repository and then:
+Make changes...
 
 ```bash
 source bootstrap.sh
