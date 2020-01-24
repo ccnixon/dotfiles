@@ -62,5 +62,5 @@ if [[ $ITERM_SESSION_ID ]]; then
   export PROMPT_COMMAND=get_iterm_label;"${PROMPT_COMMAND}"
 fi
 
-# iTerm 2 shell integrationi
+# iTerm 2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
