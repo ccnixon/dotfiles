@@ -613,6 +613,12 @@ sudo mdutil -E / > /dev/null
 # Terminal & iTerm 2                                                          #
 ###############################################################################
 
+# Specify the preferences directory
+defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/dev/github.com/ccnixon/dotfiles/iterm2"
+
+# Tell iTerm2 to use the custom preferences in the directory
+defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
 
