@@ -193,3 +193,7 @@
 [url "ssh://git@github.com/"]
 
 		insteadOf = https://github.com/
+
+[user]
+	name = ccnixon
+	email = chrisnxn@gmail.com

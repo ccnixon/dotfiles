@@ -53,35 +53,34 @@ brew install sfnt2woff-zopfli
 brew install woff2
 
 # Install some CTF tools; see https://github.com/ctfs/write-ups.
-brew install aircrack-ng
-brew install bfg
-brew install binutils
-brew install binwalk
-brew install cifer
-brew install dex2jar
-brew install dns2tcp
-brew install fcrackzip
-brew install foremost
-brew install hashpump
-brew install hydra
-brew install john
-brew install knock
-brew install netpbm
-brew install nmap
-brew install pngcheck
-brew install socat
-brew install sqlmap
-brew install tcpflow
-brew install tcpreplay
-brew install tcptrace
-brew install ucspi-tcp # `tcpserver` etc.
-brew install xpdf
-brew install xz
+# brew install aircrack-ng
+# brew install bfg
+# brew install binutils
+# brew install binwalk
+# brew install cifer
+# brew install dex2jar
+# brew install dns2tcp
+# brew install fcrackzip
+# brew install foremost
+# brew install hashpump
+# brew install hydra
+# brew install john
+# brew install knock
+# brew install netpbm
+# brew install nmap
+# brew install pngcheck
+# brew install socat
+# brew install sqlmap
+# brew install tcpflow
+# brew install tcpreplay
+# brew install tcptrace
+# brew install ucspi-tcp # `tcpserver` etc.
+# brew install xpdf
+# brew install xz
 
 # Install other useful binaries.
 brew install ack
 #brew install exiv2
-brew install git
 brew install git-lfs
 brew install gs
 brew install imagemagick --with-webp
@@ -94,6 +93,30 @@ brew install rename
 brew install rlwrap
 brew install ssh-copy-id
 brew install tree
+brew install jq
+brew install htop
+brew install go
+brew install tldr
+brew install node
+brew install mysql
+brew install hub
+brew install peco
+brew install yarn
 
 # Remove outdated versions from the cellar.
 brew cleanup
+
+# Install cask applications
+brew cask install alfred
+brew cask install caffeine
+brew cask install chrome
+brew cask install insomnia
+brew cask install spectacle
+brew cask install transmission
+brew cask install ngrok
+brew cask install chrome
+brew cask install vlc
+brew cask install visual-studio-code
+brew cask install firefox
+brew cask install spotify
+brew cask install docker

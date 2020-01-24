@@ -4,8 +4,22 @@ Forked from [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles) 
 
 ## Installation
 
-### Using Git and the bootstrap script
+1. Install Homebrew
+```bash
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 
+2. Install git
+```bash
+brew install git
+```
+
+3. Initialize dev directory
+```bash
+cd ~ && mkdir -p dev/github.com/ccnixon && cd dev/github.com/ccnixon`
+```
+
+4. Run the bootstrap script
 ```bash
 git clone https://github.com/ccnixon/dotfiles.git && cd dotfiles && source bootstrap.sh
 ```

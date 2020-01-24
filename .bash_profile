@@ -1,7 +1,3 @@
-# Set PATH
-export GOPATH=~/dev
-export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin
-
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
@@ -49,3 +45,22 @@ complete -W "NSGlobalDomain" defaults;
 
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
+
+ # Display the current git repo, or directory, in iterm tabs.
+if [[ $ITERM_SESSION_ID ]]; then
+  get_iterm_label() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      local directory
+      directory=${PWD##*/}
+      echo -ne "\\033];$directory\\007"
+    else
+      local branch
+      branch=$(basename "$(git rev-parse --show-toplevel)")
+      echo -ne "\\033];$branch\\007"
+    fi
+  }
+  export PROMPT_COMMAND=get_iterm_label;"${PROMPT_COMMAND}"
+fi
+
+# iTerm 2 shell integrationi
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

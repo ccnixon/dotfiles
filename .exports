@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Go exports
+export GOPATH=~/dev
+export PATH=/usr/local/go/bin:$PATH:$GOPATH/bin
+export GO111MODULE=auto
+
 # Make vim the default editor.
 export EDITOR='vim';
 
