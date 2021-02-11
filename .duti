@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+duti -s com.microsoft.VSCode .json all
+duti -s com.microsoft.VSCode .js all
+duti -s com.microsoft.VSCode .ts all
+duti -s com.microsoft.VSCode .md all

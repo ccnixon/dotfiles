@@ -1,4 +1,0 @@
-# Work specific config
-
-# robo config
-alias robo='robo --config $HOME/dev/src/github.com/segmentio/robofiles/development/robo.yml'

@@ -3,6 +3,7 @@
 
 # Install git
 brew install git
+brew install zsh
 
 # Initialize dev directory
 cd ~ && mkdir -p dev/github.com/ccnixon && cd dev/github.com/ccnixon

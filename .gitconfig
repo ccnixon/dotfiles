@@ -192,8 +192,21 @@
 
 [url "ssh://git@github.com/"]
 
-		insteadOf = https://github.com/
+	insteadOf = https://github.com/
 
 [user]
-	name = ccnixon
+	signingkey = 2C9EE546A865C729
 	email = chrisnxn@gmail.com
+	name = Christopher Nixon
+
+[gpg]
+	program = /usr/local/bin/gpg
+
+[commit]
+	gpgsign = true
+
+[gpg]
+	program = /usr/local/bin/gpg
+
+[init]
+	defaultBranch = master
