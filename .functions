@@ -190,7 +190,7 @@ docker-cleanup() {
 #
 
 goto() {
-  GO_DEFAULT=segmentio
+  GO_DEFAULT=ccnixon
 
   #
   # The brains behind goto
@@ -210,7 +210,7 @@ goto() {
   {
     cur=${COMP_WORDS[COMP_CWORD]}
     if [[ "$cur" =~ ^([^/]+)/(.+)$ ]]; then
-      use=`tree -f -L 1 ~/dev/src/github.com/segmentio/ | grep ${BASH_REMATCH[2]} | tr / '\t' | awk '{print $(NF-1),$NF}' | tr ' ' /`
+      use=`tree -f -L 1 ~/dev/src/github.com/ccnixon/ | grep ${BASH_REMATCH[2]} | tr / '\t' | awk '{print $(NF-1),$NF}' | tr ' ' /`
     else
       use=`ls ~/dev/src/github.com/$GO_DEFAULT/ | grep $cur`
     fi
@@ -229,30 +229,6 @@ goto() {
 
     */*)
       nav $1
-    ;;
-
-    ajs)
-      [[ -z $2 ]] && nav segmentio/analytics.js-core || nav segment-integrations/analytics.js-integration-$2
-    ;;
-
-    int)
-      [[ -z $2 ]] && echo "must specify integration" || nav segmentio/integrations/integrations/$2
-    ;;
-
-    source)
-      [[ -z $2 ]] && echo "must specify source" || nav segment-sources/$2
-    ;;
-
-    ios)
-      [[ -z $2 ]] && nav segmentio/analytics-ios || nav segment-integrations/analytics-ios-integration-$2
-    ;;
-
-    android)
-      [[ -z $2 ]] && nav segmentio/analytics-android || nav segment-integrations/analytics-android-integration-$2
-    ;;
-
-    infra)
-      [[ -z $2 ]] && echo "must specify repo" || nav segment-infra/$2
     ;;
 
     *)
@@ -284,6 +260,7 @@ clone() {
 	  fi
   done
 }
+
 
 #
 # Get the npm version of a <package>
