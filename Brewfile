@@ -28,6 +28,7 @@ brew 'lazygit'
 # Development Tools - Languages
 brew 'go'
 brew 'fnm'  # Fast Node Manager (lighter than nvm)
+brew 'pnpm'  # Fast, disk space efficient package manager
 brew 'uv'  # Python package manager
 brew 'rustup'  # In case you need Rust later
 

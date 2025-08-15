@@ -24,8 +24,8 @@ $docker_context\
 $line_break\
 $character"""
 
-# Timeout for commands
-command_timeout = 1000
+# Timeout for commands (increased for Node.js)
+command_timeout = 10000
 
 [username]
 style_user = "bright-white bold"
@@ -53,18 +53,18 @@ format = "on [$symbol$branch]($style) "
 style = "bold purple"
 
 [git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold red"
-conflicted = "🏳"
+format = '([$all_status$ahead_behind]($style) )'
+style = "bold yellow"
+conflicted = "="
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-untracked = "🤷"
-stashed = "📦"
-modified = "📝"
-staged = '[++\($count\)](green)'
-renamed = "👅"
-deleted = "🗑"
+untracked = "✗"
+stashed = "$"
+modified = "!"
+staged = '[+\($count\)](green)'
+renamed = "»"
+deleted = "✘"
 
 [golang]
 symbol = " "
@@ -75,6 +75,11 @@ style = "bold cyan"
 symbol = " "
 format = "via [$symbol($version )]($style)"
 style = "bold green"
+detect_extensions = ["js", "mjs", "cjs", "ts", "tsx", "jsx"]
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_folders = ["node_modules"]
+# Only show Node version in directories with Node.js projects
+not_capable_style = ""
 
 [python]
 symbol = " "

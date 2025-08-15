@@ -15,8 +15,12 @@ alias ytest='yarn test'
 alias ytype='yarn type-check'
 
 # Next.js project creation
-alias create-next='npx create-next-app@latest'
-alias create-next-ts='npx create-next-app@latest --typescript'
+alias create-next='create-next-app'
+alias create-next-ts='create-next-app --typescript'
+alias create-next-tailwind='create-next-app --tailwind --typescript'
+alias create-next-app-router='create-next-app --app --typescript --tailwind'
+
+# Vercel deployment shortcuts (moved to vercel/config.zsh)
 
 # Next.js debugging and optimization
 alias next-analyze='ANALYZE=true npm run build'

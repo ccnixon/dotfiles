@@ -1,5 +1,8 @@
 DISABLE_AUTO_TITLE="true"
 
+# Load add-zsh-hook function
+autoload -Uz add-zsh-hook
+
 is_git() {
   [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]
 }

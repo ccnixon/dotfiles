@@ -99,8 +99,10 @@ if command -v atuin &> /dev/null; then
   eval "$(atuin init zsh)"
 fi
 
-# fnm - Fast Node Manager
-if command -v fnm &> /dev/null; then
+# fnm - Fast Node Manager (lazy initialization)
+# Only initialize fnm when needed to avoid shell startup delays
+# Set FNM_AUTO_INIT=true in ~/.localrc to always initialize on startup
+if [[ "$FNM_AUTO_INIT" == "true" ]] && command -v fnm &> /dev/null; then
   eval "$(fnm env --use-on-cd)"
 fi
 

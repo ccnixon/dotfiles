@@ -60,7 +60,7 @@ The bootstrap script will:
 
 ### Development Apps
 - **Editors**: VS Code, Cursor (AI-powered), Neovim
-- **AI Tools**: Claude Code with MCP server integration
+- **AI Tools**: AI development support
 - **Productivity**: Raycast, Rectangle, Arc browser
 - **Database**: TablePlus for GUI database management
 - **API**: Postman for API development
@@ -79,7 +79,6 @@ This setup follows a **topic-centric** approach where each development area has 
 
 ### Key Directories
 - **`aws/`**: AWS CLI shortcuts and configuration
-- **`claude/`**: Claude Code integration and MCP server management
 - **`docker/`**: Docker and container aliases
 - **`git/`**: Git configuration and custom commands
 - **`go/`**: Go development environment
@@ -174,10 +173,6 @@ vdeploy     # vercel --prod with git commit
 tbuild      # turbo build
 psconnect   # pscale connect with defaults
 
-# AI Development
-cc          # claude-code (current directory)
-cc-resume   # claude-code --resume
-claude-readme # Show/create CLAUDE.md for project context
 ```
 
 ## 🐛 Troubleshooting
