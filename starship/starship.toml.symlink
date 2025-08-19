@@ -24,8 +24,8 @@ $docker_context\
 $line_break\
 $character"""
 
-# Timeout for commands (increased for Node.js)
-command_timeout = 10000
+# Timeout for commands (increased for slow-starting interpreters)
+command_timeout = 15000
 
 [username]
 style_user = "bright-white bold"
@@ -85,6 +85,11 @@ not_capable_style = ""
 symbol = " "
 format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 style = "bold yellow"
+detect_extensions = ["py"]
+detect_files = ["requirements.txt", "pyproject.toml", "Pipfile", "tox.ini", "setup.py", "setup.cfg", "__init__.py"]
+detect_folders = [".venv", "venv", ".virtualenv"]
+# Only show Python version in Python projects
+python_binary = ["python3", "python"]
 
 [terraform]
 symbol = "󱁢 "
@@ -123,7 +128,7 @@ error_symbol = "[❯](bold red)"
 vicmd_symbol = "[❮](bold green)"
 
 [time]
-disabled = false
+disabled = true  # Disable to improve performance
 format = '[$time]($style) '
 style = "bold white"
 use_12hr = false
@@ -134,7 +139,7 @@ format = "took [$duration](bold yellow) "
 show_milliseconds = false
 
 [memory_usage]
-disabled = false
+disabled = true  # Disable to improve performance
 threshold = 75
 format = "via $symbol [${ram_pct}]($style) "
 style = "bold dimmed white"

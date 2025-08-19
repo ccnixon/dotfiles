@@ -51,7 +51,7 @@
 	defaultBranch = main
 [commit]
 	# GPG signing (will be overridden by local config if SSH signing is preferred)
-	gpgSign = true
+	gpgsign = false
 [tag]
 	# Sign tags by default
 	gpgSign = true

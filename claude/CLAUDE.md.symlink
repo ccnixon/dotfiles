@@ -1,0 +1,260 @@
+# System-Level Claude Code Configuration
+
+This is a system-wide configuration file for Claude Code that provides context about the development environment and coding standards across all projects on this machine.
+
+## Development Environment Overview
+
+### Operating System
+- **Platform**: macOS (Darwin-based Unix environment)
+- **Shell**: Zsh with modern tooling and enhancements
+- **Terminal**: iTerm2/Terminal.app with Starship prompt
+- **Package Manager**: Homebrew for system packages
+
+### Core Development Tools
+
+#### Version Control
+- **Git**: Primary VCS with SSH authentication preferred
+- **GitHub CLI** (`gh`): For repository and PR management
+- **Delta**: Enhanced diff viewer with syntax highlighting
+
+#### Languages & Runtimes
+- **Go**: Managed via Homebrew, GOPATH typically `~/Code`
+- **Node.js**: Version managed via fnm (Fast Node Manager)
+- **Python**: Package management via uv (modern Python tooling)
+- **TypeScript**: Integrated with Node.js ecosystem
+- **Rust**: System language for performance-critical tools
+- **Shell**: Bash/Zsh scripting for automation
+
+#### Modern CLI Tools
+- **eza**: Modern replacement for `ls` with tree view and Git integration
+- **ripgrep** (`rg`): Fast text search across codebases
+- **fd**: Fast and user-friendly alternative to `find`
+- **bat**: Cat clone with syntax highlighting and Git integration
+- **fzf**: Fuzzy finder for interactive command-line filtering
+- **zoxide**: Smart directory jumping based on frecency
+- **atuin**: Enhanced shell history with sync capabilities
+
+#### Infrastructure & DevOps
+- **Docker**: Container development and deployment
+- **Kubernetes**: Container orchestration with kubectl, k9s, helm
+- **Terraform**: Infrastructure as Code with terragrunt, tflint, tfsec
+- **AWS/GCP/Azure**: Multi-cloud development support
+- **Vercel**: Frontend deployment platform
+- **PlanetScale**: Database management with branching workflows
+
+### Web Development Stack
+- **Next.js**: Full-stack React framework for modern web applications
+- **Turborepo**: Monorepo management for multi-package projects
+- **Tailwind CSS**: Utility-first CSS framework
+- **Prisma**: Type-safe database ORM
+- **ESLint/Prettier**: Code formatting and linting
+
+## Coding Standards & Conventions
+
+### General Principles
+- **Readability**: Code should be self-documenting with clear naming
+- **Consistency**: Follow established patterns within each project
+- **Security**: Never commit secrets, use environment variables
+- **Performance**: Consider efficiency but prioritize maintainability
+- **Testing**: Write tests for critical functionality
+
+### Language-Specific Conventions
+
+#### JavaScript/TypeScript
+- Use 2-space indentation
+- Prefer `const` over `let`, avoid `var`
+- Use TypeScript for type safety in larger projects
+- Follow functional programming patterns where appropriate
+- Use descriptive variable and function names
+
+#### Go
+- Follow `gofmt` standard formatting
+- Use receiver names of 1-2 characters
+- Prefer composition over inheritance
+- Handle errors explicitly, don't ignore them
+- Use meaningful package names
+
+#### Python
+- Follow PEP 8 style guidelines
+- Use type hints for function signatures
+- Prefer list comprehensions for simple transformations
+- Use virtual environments via uv
+- Write docstrings for public functions
+
+#### Shell Scripts
+- Use `#!/usr/bin/env bash` for portability
+- Set `set -euo pipefail` for robust error handling
+- Quote variables to prevent word splitting
+- Use `command -v` to check for tool availability
+- Provide usage information for complex scripts
+
+### Configuration File Standards
+- **YAML**: 2-space indentation, no tabs
+- **JSON**: 2-space indentation for readability
+- **TOML**: Use for Rust projects and simple configuration
+- **Dotfiles**: Organize by topic, use symlinks for home directory files
+
+## Development Workflows
+
+### Git Workflow
+- **Branching**: Use feature branches, merge to `main`/`master`
+- **Commits**: Write descriptive commit messages, use conventional commits
+- **PRs**: Include description, test plan, and link to issues
+- **SSH**: Prefer SSH URLs for GitHub repositories
+
+### Commit Message Preferences
+- **Format**: Short, concise one-line commit messages (50 characters or less)
+- **Style**: Direct and to the point, describing what was changed
+- **No AI annotations**: Do NOT include Claude Code references, emojis, or AI-generated markers
+- **No Co-authored-by**: Do NOT add co-authorship lines or Claude references
+- **Examples**:
+  - Good: `Fix navigation bug in sidebar`
+  - Good: `Add user authentication endpoint`
+  - Good: `Update dependencies to latest versions`
+  - Bad: `Fix navigation bug in sidebar 🤖 Generated with Claude Code`
+  - Bad: `Update dependencies\n\nCo-Authored-By: Claude <noreply@anthropic.com>`
+- **Important**: When using Claude Code to make commits, use clean, human-style messages without any AI-related annotations
+
+### Package Management
+- **Homebrew**: System-level tools and languages
+- **npm/yarn**: Node.js packages, prefer npm for consistency
+- **uv**: Python package and environment management
+- **Go modules**: Enabled by default for dependency management
+- **Cargo**: Rust package management
+
+### Environment Management
+- **dotfiles**: Centralized configuration management
+- **~/.localrc**: Local environment variables (gitignored)
+- **Docker**: Consistent development environments
+- **Virtual environments**: Language-specific isolation
+
+### Testing & Quality Assurance
+- **Unit tests**: Test individual functions and modules
+- **Integration tests**: Test component interactions
+- **Linting**: Use language-specific linters (ESLint, golangci-lint, ruff)
+- **Formatting**: Automated code formatting (Prettier, gofmt, black)
+- **Type checking**: Use TypeScript, mypy, or similar tools
+
+## Security Guidelines
+
+### General Security
+- Never commit API keys, passwords, or tokens to repositories
+- Use environment variables for sensitive configuration
+- Regularly update dependencies to patch vulnerabilities
+- Use SSH keys for Git authentication
+- Enable 2FA on all development accounts
+
+### Code Security
+- Validate all inputs, especially user-provided data
+- Use parameterized queries to prevent SQL injection
+- Sanitize outputs to prevent XSS attacks
+- Follow principle of least privilege for access controls
+- Regularly audit dependencies for known vulnerabilities
+
+## Performance Guidelines
+
+### General Performance
+- Profile before optimizing to identify actual bottlenecks
+- Prefer simple solutions over premature optimization
+- Cache expensive operations when appropriate
+- Use appropriate data structures for the use case
+- Monitor resource usage in production
+
+### Web Performance
+- Optimize images and use modern formats (WebP, AVIF)
+- Implement code splitting for large applications
+- Use CDN for static assets
+- Minimize bundle sizes with tree shaking
+- Implement proper caching strategies
+
+## Troubleshooting Common Issues
+
+### Environment Issues
+- **PATH problems**: Check shell configuration loading order
+- **Missing commands**: Verify Homebrew bundle installation
+- **Version conflicts**: Use version managers (fnm, uv, etc.)
+- **Permission errors**: Check file ownership and chmod settings
+
+### Development Issues
+- **Build failures**: Check dependency versions and lock files
+- **Test failures**: Ensure test environment matches development
+- **Linting errors**: Run formatters and fix style issues
+- **Git issues**: Check SSH key configuration and repository access
+
+### Debug Commands
+```bash
+# Check development environment
+echo $PATH | tr ':' '\n'
+which node go python
+brew list | head -20
+
+# Verify shell configuration
+zsh -x ~/.zshrc 2>&1 | head -50
+
+# Check Git configuration
+git config --list | grep user
+ssh -T git@github.com
+
+# System information
+uname -a
+sw_vers  # macOS version
+```
+
+## Project Structure Best Practices
+
+### Directory Organization
+```
+project/
+├── src/                    # Source code
+├── tests/                  # Test files
+├── docs/                   # Documentation
+├── scripts/                # Build and utility scripts
+├── config/                 # Configuration files
+├── .github/                # GitHub workflows and templates
+├── .env.example           # Environment variable template
+├── .gitignore             # Git ignore patterns
+├── README.md              # Project documentation
+├── CLAUDE.md              # Claude Code context
+└── package.json           # Project metadata and dependencies
+```
+
+### Documentation Standards
+- **README.md**: Project overview, setup instructions, usage examples
+- **CLAUDE.md**: Context for AI assistance and development guidelines
+- **CHANGELOG.md**: Version history and breaking changes
+- **CONTRIBUTING.md**: Guidelines for contributors
+- **API documentation**: Generated from code comments where possible
+
+## AI Assistance Guidelines
+
+When working with Claude Code:
+- Provide clear, specific requirements for tasks
+- Include relevant context about the project structure
+- Specify testing requirements and validation criteria
+- Mention any constraints or preferences for implementation
+- Request explanations for complex or unfamiliar code patterns
+
+### Preferred Communication Style
+- Direct and concise responses
+- Focus on practical solutions over theoretical explanations
+- Include code examples and command-line instructions
+- Highlight potential issues or edge cases
+- Suggest best practices and modern alternatives
+
+## Maintenance & Updates
+
+### Regular Maintenance
+- Update Homebrew packages monthly: `brew update && brew upgrade`
+- Review and update Node.js/Python dependencies quarterly
+- Clean up unused Docker images and containers weekly
+- Backup important configuration files and scripts
+- Review and update security tools and configurations
+
+### Environment Updates
+- Test dotfiles changes on a separate branch first
+- Verify all tools work after major OS updates
+- Update development tools to latest stable versions
+- Review and clean up old projects and dependencies
+- Maintain current documentation and configuration examples
+
+This system-level configuration ensures consistent development practices across all projects and provides Claude Code with comprehensive context about the development environment and preferred workflows.
