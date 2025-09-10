@@ -9,6 +9,7 @@ alias kga='kubectl get all'
 
 # Kubernetes context and namespace
 alias kctx='kubectx'
+alias ktx='kubectx'
 alias kns='kubens'
 alias kcurrent='kubectl config current-context'
 alias kconfig='kubectl config view'
