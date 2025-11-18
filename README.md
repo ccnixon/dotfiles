@@ -4,11 +4,45 @@ A modernized dotfiles setup optimized for Go, TypeScript, Python development wit
 
 ## 🚀 Quick Start
 
+### Prerequisites: SSH Setup for GitHub
+
+Before cloning the repository, you'll need to set up SSH keys for GitHub access:
+
+```bash
+# 1. Generate a new SSH key (replace with your email)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+# Press Enter for default location, optionally add a passphrase
+
+# 2. Start ssh-agent and add your key
+eval "$(ssh-agent -s)"
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+
+# 3. Configure SSH to use keychain
+cat >> ~/.ssh/config << 'EOF'
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+EOF
+
+# 4. Copy your public key to clipboard
+pbcopy < ~/.ssh/id_ed25519.pub
+
+# 5. Add to GitHub:
+#    - Go to https://github.com/settings/keys
+#    - Click "New SSH key"
+#    - Paste the key and save
+
+# 6. Test the connection
+ssh -T git@github.com
+# Should see: "Hi username! You've successfully authenticated..."
+```
+
 ### Fresh MacBook Setup
 
 ```bash
-# Clone the dotfiles
-git clone https://github.com/ccnixon/dotfiles ~/.dotfiles
+# Clone the dotfiles (now that SSH is configured)
+git clone git@github.com:ccnixon/dotfiles.git ~/.dotfiles
 
 # Navigate to the dotfiles directory
 cd ~/.dotfiles
