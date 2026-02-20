@@ -1,6 +1,35 @@
 #compdef goto
 #
-# Zsh completion for goto()
+# Zsh completion for goto
+# Completes source prefixes and repo paths from ~/.gotorc
 #
 
-_files -W $GOPATH/src/github.com/ -/
+local config=~/.gotorc
+[[ -f $config ]] || return
+
+local input=${words[CURRENT]}
+
+if [[ "$input" == *:* ]]; then
+  # Already typed a source prefix — complete repos from that source's path
+  local source_name=${input%%:*}
+  local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
+  if [[ -n "$line" ]]; then
+    local base_path=$(echo $line | cut -d'|' -f2)
+    base_path=${base_path/#\~/$HOME}
+    _files -W "$base_path" -/ -P "${source_name}:"
+  fi
+else
+  # Offer source prefixes and repos from default source
+  local -a sources
+  while IFS='|' read -r name rest; do
+    [[ "$name" == \#* || -z "$name" ]] && continue
+    sources+=("${name}\:")
+  done < $config
+
+  local default_path=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f2)
+  default_path=${default_path/#\~/$HOME}
+
+  _alternative \
+    "sources:source:compadd -S '' ${sources[@]}" \
+    "repos:repo:_files -W '$default_path' -/"
+fi

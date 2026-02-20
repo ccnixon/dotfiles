@@ -1,0 +1,7 @@
+# goto source configuration
+# Format: name|local_path|clone_url_template|default_org
+# First entry is the default source (used when no prefix is specified)
+# {repo} in clone_url is replaced with the repository name
+# default_org is prepended to bare repo names (optional)
+github|~/Code/src/github.com|ssh://git@github.com/{repo}.git|coplane
+ado|~/Code/src/dev.azure.com/TheKraftGroupLLC/RWG COPLANE|https://dev.azure.com/TheKraftGroupLLC/RWG%20COPLANE/_git/{repo}

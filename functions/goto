@@ -1,43 +1,61 @@
 #!/bin/zsh
 #
-# Go to a <repo> in ~/Code
+# Navigate to a repo in ~/Code, cloning it if needed.
+#
+# Usage:
+#   goto repo            # default source, default org
+#   goto org/repo        # default source, explicit org
+#   goto ado:repo        # named source from ~/.gotorc
+#
+# Sources are configured in ~/.gotorc
 #
 
 goto() {
-  GO_DEFAULT=ccnixon
+  local config=~/.gotorc
 
-  #
-  # The brains behind goto
-  #
-
-  nav() {
-    cd ~/Code/src/github.com/$1 &> /dev/null ||
-    clone $1 2> /dev/null ||
-    echo "repo @ $1 does not exist"
-  }
-
-  if hash complete 2>/dev/null; then
-    complete -o default -o nospace -F _goto goto
+  if [[ ! -f $config ]]; then
+    echo "goto: missing config ~/.gotorc"
+    return 1
   fi
 
-  if hash shopt 2>/dev/null; then
-    shopt -s cdspell
+  if [[ -z "$1" ]]; then
+    echo "usage: goto [source:]<repo>"
+    return 1
   fi
 
-  case $1 in
+  local source_name repo input=$1
 
-    */*)
-      nav $1
-    ;;
-
-    *)
-      nav $GO_DEFAULT/$1
-    ;;
-
-  esac
-
-  if hash shopt 2>/dev/null; then
-    shopt -s cdspell
+  # Parse "source:repo" prefix
+  if [[ "$input" == *:* ]]; then
+    source_name=${input%%:*}
+    repo=${input#*:}
+  else
+    # Use first non-comment line as default source
+    source_name=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f1)
+    repo=$input
   fi
 
+  # Look up source in config
+  local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
+  if [[ -z "$line" ]]; then
+    echo "goto: unknown source '$source_name'"
+    echo "available: $(command grep -v '^#' $config | command grep -v '^$' | cut -d'|' -f1 | tr '\n' ' ')"
+    return 1
+  fi
+
+  local base_path=$(echo $line | cut -d'|' -f2)
+  local default_org=$(echo $line | cut -d'|' -f4)
+  base_path=${base_path/#\~/$HOME}
+
+  # Prepend default org for bare repo names (no slash)
+  if [[ -n "$default_org" && "$repo" != */* ]]; then
+    repo=$default_org/$repo
+  fi
+
+  cd "$base_path/$repo" 2>/dev/null && return
+
+  clone "${source_name}:${repo}" 2>/dev/null && return
+
+  echo "goto: repo '$repo' not found in $source_name"
+  return 1
 }
