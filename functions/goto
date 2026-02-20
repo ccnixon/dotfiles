@@ -23,7 +23,7 @@ goto() {
     return 1
   fi
 
-  local source_name repo input=$1
+  local source_name repo input="$*"
 
   # Parse "source:repo" prefix
   if [[ "$input" == *:* ]]; then
