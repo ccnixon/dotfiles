@@ -9,45 +9,43 @@
 #   clone repo1 repo2      # multiple repos
 #
 
-clone() {
-  local config=~/.gotorc
+local config=~/.gotorc
 
-  if [[ ! -f $config ]]; then
-    echo "clone: missing config ~/.gotorc"
+if [[ ! -f $config ]]; then
+  echo "clone: missing config ~/.gotorc"
+  return 1
+fi
+
+for input in "$@"; do
+  local source_name repo
+
+  # Parse "source:repo" prefix
+  if [[ "$input" == *:* ]]; then
+    source_name=${input%%:*}
+    repo=${input#*:}
+  else
+    source_name=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f1)
+    repo=$input
+  fi
+
+  local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
+  if [[ -z "$line" ]]; then
+    echo "clone: unknown source '$source_name'"
     return 1
   fi
 
-  for input in "$@"; do
-    local source_name repo
+  local base_path=$(echo $line | cut -d'|' -f2)
+  local clone_url=$(echo $line | cut -d'|' -f3)
+  local default_org=$(echo $line | cut -d'|' -f4)
+  base_path=${base_path/#\~/$HOME}
 
-    # Parse "source:repo" prefix
-    if [[ "$input" == *:* ]]; then
-      source_name=${input%%:*}
-      repo=${input#*:}
-    else
-      source_name=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f1)
-      repo=$input
-    fi
+  if [[ -n "$default_org" && "$repo" != */* ]]; then
+    repo=$default_org/$repo
+  fi
 
-    local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
-    if [[ -z "$line" ]]; then
-      echo "clone: unknown source '$source_name'"
-      return 1
-    fi
+  local dir="$base_path/$repo"
+  local encoded_repo=${repo// /%20}
+  local url=${clone_url/\{repo\}/$encoded_repo}
 
-    local base_path=$(echo $line | cut -d'|' -f2)
-    local clone_url=$(echo $line | cut -d'|' -f3)
-    local default_org=$(echo $line | cut -d'|' -f4)
-    base_path=${base_path/#\~/$HOME}
-
-    if [[ -n "$default_org" && "$repo" != */* ]]; then
-      repo=$default_org/$repo
-    fi
-
-    local dir="$base_path/$repo"
-    local encoded_repo=${repo// /%20}
-    local url=${clone_url/\{repo\}/$encoded_repo}
-
-    git clone "$url" "$dir" && cd "$dir"
-  done
-}
+  git clone "$url" "$dir" && cd "$dir"
+done

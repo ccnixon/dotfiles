@@ -10,52 +10,50 @@
 # Sources are configured in ~/.gotorc
 #
 
-goto() {
-  local config=~/.gotorc
+local config=~/.gotorc
 
-  if [[ ! -f $config ]]; then
-    echo "goto: missing config ~/.gotorc"
-    return 1
-  fi
-
-  if [[ -z "$1" ]]; then
-    echo "usage: goto [source:]<repo>"
-    return 1
-  fi
-
-  local source_name repo input="$*"
-
-  # Parse "source:repo" prefix
-  if [[ "$input" == *:* ]]; then
-    source_name=${input%%:*}
-    repo=${input#*:}
-  else
-    # Use first non-comment line as default source
-    source_name=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f1)
-    repo=$input
-  fi
-
-  # Look up source in config
-  local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
-  if [[ -z "$line" ]]; then
-    echo "goto: unknown source '$source_name'"
-    echo "available: $(command grep -v '^#' $config | command grep -v '^$' | cut -d'|' -f1 | tr '\n' ' ')"
-    return 1
-  fi
-
-  local base_path=$(echo $line | cut -d'|' -f2)
-  local default_org=$(echo $line | cut -d'|' -f4)
-  base_path=${base_path/#\~/$HOME}
-
-  # Prepend default org for bare repo names (no slash)
-  if [[ -n "$default_org" && "$repo" != */* ]]; then
-    repo=$default_org/$repo
-  fi
-
-  cd "$base_path/$repo" 2>/dev/null && return
-
-  clone "${source_name}:${repo}" 2>/dev/null && return
-
-  echo "goto: repo '$repo' not found in $source_name"
+if [[ ! -f $config ]]; then
+  echo "goto: missing config ~/.gotorc"
   return 1
-}
+fi
+
+if [[ -z "$1" ]]; then
+  echo "usage: goto [source:]<repo>"
+  return 1
+fi
+
+local source_name repo input="$*"
+
+# Parse "source:repo" prefix
+if [[ "$input" == *:* ]]; then
+  source_name=${input%%:*}
+  repo=${input#*:}
+else
+  # Use first non-comment line as default source
+  source_name=$(command grep -v '^#' $config | command grep -v '^$' | head -1 | cut -d'|' -f1)
+  repo=$input
+fi
+
+# Look up source in config
+local line=$(command grep -v '^#' $config | command grep "^${source_name}|")
+if [[ -z "$line" ]]; then
+  echo "goto: unknown source '$source_name'"
+  echo "available: $(command grep -v '^#' $config | command grep -v '^$' | cut -d'|' -f1 | tr '\n' ' ')"
+  return 1
+fi
+
+local base_path=$(echo $line | cut -d'|' -f2)
+local default_org=$(echo $line | cut -d'|' -f4)
+base_path=${base_path/#\~/$HOME}
+
+# Prepend default org for bare repo names (no slash)
+if [[ -n "$default_org" && "$repo" != */* ]]; then
+  repo=$default_org/$repo
+fi
+
+cd "$base_path/$repo" 2>/dev/null && return
+
+clone "${source_name}:${repo}" 2>/dev/null && return
+
+echo "goto: repo '$repo' not found in $source_name"
+return 1
